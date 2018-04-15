@@ -32,7 +32,7 @@ function myFunction() {
 
   // Builds the Facebook Ads Insights API URL
   var facebookUrl = 
-    GRAPHAPI + 
+    GRAPH_API + 
     AD_ACCOUNT_ID +
     LEVEL +
     FIELDS +

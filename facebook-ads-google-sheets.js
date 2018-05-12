@@ -14,8 +14,9 @@ var AD_ACCOUNT_ID = 'INSERT_AD_ACCOUNT_ID'
 var LEVEL = '/insights?level=' + 'campaign'
 var FIELDS = '&fields=' + 'campaign_name,impressions,inline_link_clicks,spend'
 var DATE_RANGE = '&date_preset=' + 'lifetime'
+var FILTERING = '&filtering=[{"field":"action_type","operator":"CONTAIN","value":"offsite_conversion.fb_pixel_purchase"}]'
 
-var GRAPH_API = 'https://graph.facebook.com/v2.12/act_'
+var GRAPH_API = 'https://graph.facebook.com/v3.0/act_'
 
 function myFunction() {
 
@@ -27,7 +28,7 @@ function myFunction() {
   sheet.clear();
 
   // Adds column headers
-  sheet.appendRow(['Campaign Name','Impressions','Link Clicks','Spend'])
+  sheet.appendRow(['Campaign Name','Impressions','Link Clicks','Spend', 'Purchases','Revenue'])
   Utilities.sleep(100);
 
   // Builds the Facebook Ads Insights API URL
@@ -36,18 +37,19 @@ function myFunction() {
     AD_ACCOUNT_ID +
     LEVEL +
     FIELDS +
-    TOKEN +
+    FILTERING +
     DATE_RANGE +
-    '&limit=1000'; 
-
+    TOKEN +
+    '&limit=1000';
+  var encodedFacebookUrl = encodeURI(facebookUrl)
+  
   // Fetches & parses the URL 
-  var fetchRequest = UrlFetchApp.fetch(facebookUrl);
+  var fetchRequest = UrlFetchApp.fetch(encodedFacebookUrl);
   var results = JSON.parse(fetchRequest.getContentText());
   
   // Pushes data to the sheet
-  var i = 0;
   var len = results.data.length
-  for (; i < len; i++) {
+  for (i = 0; i < len; i++) {
     var row = []
     var campaignName = results.data[i].campaign_name
     row.push(campaignName)
@@ -60,6 +62,12 @@ function myFunction() {
     Utilities.sleep(25);
     var spend = results.data[i].spend
     row.push(spend)
+    Utilities.sleep(25);
+    var conversion = results.data[i].actions[0].value
+    row.push(conversion)
+    Utilities.sleep(25);
+    var conversionValue = results.data[i].action_values[0].value
+    row.push(conversionValue)
     sheet.appendRow(row)
 
   }

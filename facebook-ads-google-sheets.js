@@ -2,7 +2,7 @@
 *
 * Export Facebook Ads Data to Google Sheets
 *
-* Version: 0.1
+* Version: 1.0
 * Google Apps Script maintained by Frederic Harnois
 *
 **/
@@ -12,9 +12,8 @@ var SPREADSHEET_URL = 'INSERT_URL'
 var TOKEN = '&access_token=' + 'INSERT_TOKEN'
 var AD_ACCOUNT_ID = 'INSERT_AD_ACCOUNT_ID'
 var LEVEL = '/insights?level=' + 'campaign'
-var FIELDS = '&fields=' + 'campaign_name,impressions,inline_link_clicks,spend'
+var FIELDS = '&fields=' + 'campaign_name,impressions,inline_link_clicks,spend,actions,action_values'
 var DATE_RANGE = '&date_preset=' + 'lifetime'
-var FILTERING = '&filtering=[{"field":"action_type","operator":"CONTAIN","value":"offsite_conversion.fb_pixel_purchase"}]'
 
 var GRAPH_API = 'https://graph.facebook.com/v3.0/act_'
 
@@ -37,7 +36,6 @@ function myFunction() {
     AD_ACCOUNT_ID +
     LEVEL +
     FIELDS +
-    FILTERING +
     DATE_RANGE +
     TOKEN +
     '&limit=1000';
@@ -48,8 +46,7 @@ function myFunction() {
   var results = JSON.parse(fetchRequest.getContentText());
   
   // Pushes data to the sheet
-  var len = results.data.length
-  for (i = 0; i < len; i++) {
+  for (i = 0; i < results.data.length; i++) {
     var row = []
     var campaignName = results.data[i].campaign_name
     row.push(campaignName)
@@ -63,11 +60,42 @@ function myFunction() {
     var spend = results.data[i].spend
     row.push(spend)
     Utilities.sleep(25);
-    var conversion = results.data[i].actions[0].value
-    row.push(conversion)
+
+    var actionType = []
+    for (j = 0; j < results.data[i].actions.length; j++) {
+      actionType.push(results.data[i].actions[j].action_type)
+    }
+
+    if (actionType.indexOf('offsite_conversion.fb_pixel_purchase') != -1) {
+      for (k = 0; k < results.data[i].actions.length; k++) {
+        if (results.data[i].actions[k].action_type.indexOf('offsite_conversion.fb_pixel_purchase') != -1) {
+          var conversion = results.data[i].actions[k].value
+          row.push(conversion)
+        }
+      } 
+    }
+    else {
+      row.push(0)
+    }
     Utilities.sleep(25);
-    var conversionValue = results.data[i].action_values[0].value
-    row.push(conversionValue)
+
+    var actionValue = []
+    for (l = 0; l < results.data[i].action_values.length; l++) {
+      actionValue.push(results.data[i].action_values[l].action_type)
+    }
+
+    if (actionValue.indexOf('offsite_conversion.fb_pixel_purchase') != -1) {
+      for (m = 0; m < results.data[i].action_values.length; m++) {
+        if (results.data[i].action_values[m].action_type.indexOf('offsite_conversion.fb_pixel_purchase') != -1) {
+          var conversion = results.data[i].action_values[m].value
+          row.push(conversion)
+        }
+      } 
+    }
+    else {
+      row.push(0)
+    }
+
     sheet.appendRow(row)
 
   }

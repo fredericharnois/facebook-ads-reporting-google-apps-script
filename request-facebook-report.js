@@ -4,7 +4,7 @@
 * 
 * Requests a Facebook report asynchronously and caches the report ID
 *
-* Version: 2.0
+* Version: 2.1
 * Google Apps Script maintained by Frederic Harnois
 *
 **/
@@ -38,7 +38,7 @@ function requestFacebookReport() {
 
   // Builds the Facebook Ads Insights API URL
   var facebookUrl = 
-    'https://graph.facebook.com/v3.1' + 
+    'https://graph.facebook.com/v3.3' + 
     '/act_' + AD_ACCOUNT_ID +
     '/insights?level=' + LEVEL +
     '&fields=' + FIELDS +

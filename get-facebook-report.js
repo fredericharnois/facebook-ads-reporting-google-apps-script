@@ -4,7 +4,7 @@
 * 
 * Pushes the Facebook asynchronous report to Google Sheets
 *
-* Version: 2.0
+* Version: 2.1
 * Google Apps Script maintained by Frederic Harnois
 *
 **/

@@ -24,7 +24,7 @@ var FIELDS = 'INSERT_FIELDS'
 var DATE_RANGE = 'INSERT_DATE_RANGE'
 
 // user access token linked to a Facebook app
-var TOKEN = 'INSERT_DATE_RANGE'
+var TOKEN = 'INSERT_TOKEN'
 
 // number of days from 1 to 90
 var TIME_INCREMENT = 'INSERT_TIME_INCREMENT'

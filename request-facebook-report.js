@@ -5,7 +5,9 @@
 * Requests a Facebook report asynchronously and caches the report ID
 *
 * Version: 2.1
+*
 * Google Apps Script maintained by Frederic Harnois
+* fred@fredericharnois.com
 *
 **/
 

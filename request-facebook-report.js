@@ -40,7 +40,7 @@ function requestFacebookReport() {
 
   // Builds the Facebook Ads Insights API URL
   var facebookUrl = 
-    'https://graph.facebook.com/v4.0' + 
+    'https://graph.facebook.com/v5.0' + 
     '/act_' + AD_ACCOUNT_ID +
     '/insights?level=' + LEVEL +
     '&fields=' + FIELDS +

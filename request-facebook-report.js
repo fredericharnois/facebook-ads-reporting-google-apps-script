@@ -39,7 +39,7 @@ const FILTERING = 'INSERT_FILTERS'
 function requestFacebookReport() {
 
   // Builds the Facebook Ads Insights API URL
-  const facebookUrl = `https://graph.facebook.com/v6.0/act_${AD_ACCOUNT_ID}/insights?level=${LEVEL}&fields=${FIELDS}&date_preset=${DATE_RANGE}&access_token=${TOKEN}&time_increment=${TIME_INCREMENT}&filtering=${FILTERING}&limit=1000`;
+  const facebookUrl = `https://graph.facebook.com/v7.0/act_${AD_ACCOUNT_ID}/insights?level=${LEVEL}&fields=${FIELDS}&date_preset=${DATE_RANGE}&access_token=${TOKEN}&time_increment=${TIME_INCREMENT}&filtering=${FILTERING}&limit=1000`;
   const encodedFacebookUrl = encodeURI(facebookUrl);
   
   const options = {
